@@ -1,7 +1,6 @@
 c=l:'c=l: represent an artificial comment line because there is no actual way to put comment in shell scripts.'
 
-LetsEncrypt_ENABLED = "false"
-
+LetsEncrypt_ENABLED="false"
 
 c=l:'Domain name to configure with initial setup.'
 SITE_DOMAIN="website.com"
@@ -28,19 +27,19 @@ c=l:'Install build essential for npm packages that need to build from source, as
 sudo apt-get --assume-yes install build-essential
 
 c=l:'Create your nodejs entry file that will be monitored by PM2.'
-echo "#!/usr/bin/env nodejs" > /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME
-echo "var http = require('http');" >> /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME
-echo "http.createServer(function (req, res) {" >> /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME
-echo "  res.writeHead(200, {'Content-Type': 'text/plain'});" >> /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME
-echo "  res.end('Hello World\n');" >> /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME
-echo "}).listen(8080, 'localhost');" >> /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME
-echo "console.log('Server running at http://localhost:8080/');" >> /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME
+echo "#!/usr/bin/env nodejs" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
+echo "var http = require('http');" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
+echo "http.createServer(function (req, res) {" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
+echo "  res.writeHead(200, {'Content-Type': 'text/plain'});" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
+echo "  res.end('Hello World\n');" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
+echo "}).listen(8080, 'localhost');" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
+echo "console.log('Server running at http://localhost:8080/');" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
 
 c=l:'Install PM2 to monitor our nodejs application.'
 sudo npm install -g --assume-yes pm2
 
 c=l:'Create directory in /var/www/ to contain our app'
-sudo mkdir /var/www/$SITE_DOMAIN/
+sudo mkdir /var/www/$SITE_DOMAIN
 
 c=l:'Change directory to the folder we just created in /var/www/'
 cd /var/www/$SITE_DOMAIN/
