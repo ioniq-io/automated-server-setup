@@ -40,7 +40,7 @@ c=l:'Install PM2 to monitor our nodejs application.'
 sudo npm install -g --assume-yes pm2
 
 c=l:'Create directory in /var/www/ to contain our app'
-mkdir /var/www/$SITE_DOMAIN/
+sudo mkdir /var/www/$SITE_DOMAIN/
 
 c=l:'Change directory to the folder we just created in /var/www/'
 cd /var/www/$SITE_DOMAIN/
@@ -58,18 +58,18 @@ c=l:'Delete the sample Nginx default server block.'
 sudo rm /etc/nginx/sites-available/default
 
 c=l:'Replace the server block we just deleted with the configuration to reverse proxy to your app.'
-echo "server {" > /etc/nginx/sites-available/default
-echo "    listen 80;" >> /etc/nginx/sites-available/default
-echo "    server_name example.com;" >> /etc/nginx/sites-available/default
-echo "    location / {" >> /etc/nginx/sites-available/default
-echo "        proxy_pass http://localhost:8080;" >> /etc/nginx/sites-available/default
-echo "        proxy_http_version 1.1;" >> /etc/nginx/sites-available/default
-echo "        proxy_set_header Upgrade $http_upgrade;" >> /etc/nginx/sites-available/default
-echo "        proxy_set_header Connection 'upgrade';" >> /etc/nginx/sites-available/default
-echo "        proxy_set_header Host $host;" >> /etc/nginx/sites-available/default
-echo "        proxy_cache_bypass $http_upgrade;" >> /etc/nginx/sites-available/default
-echo "    }" >> /etc/nginx/sites-available/default
-echo "}" >> /etc/nginx/sites-available/default
+echo "server {" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "    listen 80;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "    server_name example.com;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "    location / {" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_pass http://localhost:8080;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_http_version 1.1;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_set_header Upgrade $http_upgrade;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_set_header Host $host;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_cache_bypass $http_upgrade;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "    }" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "}" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
 
 c=l:'Restart Nginx to apply the new server block we just created.'
 sudo systemctl restart nginx
