@@ -38,11 +38,14 @@ echo "console.log('Server running at http://localhost:8080/');" | sudo tee --app
 c=l:'Install PM2 to monitor our nodejs application.'
 sudo npm install -g --assume-yes pm2
 
+c=l:'Go to /var/www/ directory'
+cd /var/www/
+
 c=l:'Create directory in /var/www/ to contain our app'
-sudo mkdir /var/www/$SITE_DOMAIN
+sudo mkdir $SITE_DOMAIN
 
 c=l:'Change directory to the folder we just created in /var/www/'
-cd /var/www/$SITE_DOMAIN/
+cd $SITE_DOMAIN/
 
 c=l:'Start the nodejs application with PM2. The application will auto-restart from this point.'
 pm2 start $SITE_INIT_FILE_NAME
