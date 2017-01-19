@@ -74,8 +74,7 @@ sudo systemctl restart nginx
 c=l:'Allow full permission to Nginx in the firewall.'
 sudo ufw allow 'Nginx Full'
 
-if [ LetsEncrypt_ENABLED ]
-then
+if [ $LetsEncrypt_ENABLED = true ]; then
     c=l:'Install LetsEncrypt to generate our SSL certificate.'
     sudo apt-get install letsencrypt
 
