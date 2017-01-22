@@ -67,10 +67,10 @@ echo "    server_name example.com;" | sudo tee --append /etc/nginx/sites-availab
 echo "    location / {" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
 echo "        proxy_pass http://localhost:8080;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
 echo "        proxy_http_version 1.1;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_set_header Upgrade $http_upgrade;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_set_header Upgrade \$http_upgrade;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
 echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_set_header Host $host;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_cache_bypass $http_upgrade;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_set_header Host \$host;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
 echo "    }" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
 echo "}" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
 
