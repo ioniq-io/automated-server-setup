@@ -24,15 +24,17 @@ curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
 sudo bash nodesource_setup.sh
 
 # Install nodejs from the source we just built, assumes yes for user validation.
-sudo apt-get --assume-yes install nodejs
+sudo apt-get -qq --assume-yes install nodejs
 
 # Install build essential for npm packages that need to build from source, assumes yes for user validation.
-sudo apt-get --assume-yes install build-essential
+sudo apt-get -qq --assume-yes install build-essential
 
-
+# Check if the directory for the app already exist and if not, creates it
 if [ ! -d "$WEB_DIRECTORY" ]; then
     sudo mkdir -p "$WEB_DIRECTORY"
 fi
 
-cd $WEB_DIRECTORY
+cd "$WEB_DIRECTORY"
 
+echo "Your nodejs web application is now fully configured."
+echo "You can locate the app file with: cd $WEB_DIRECTORY"
