@@ -29,11 +29,6 @@ sudo apt-get --assume-yes install nodejs
 # Install build essential for npm packages that need to build from source, assumes yes for user validation.
 sudo apt-get --assume-yes install build-essential
 
-# Go to /var/www/ directory
-cd /var/www/
-
-# Create directory in /var/www/ to contain our app
-sudo mkdir $SITE_DOMAIN
 
 if [ ! -d "$WEB_DIRECTORY" ]; then
     sudo mkdir -p "$WEB_DIRECTORY"
