@@ -36,7 +36,7 @@ cd /var/www/
 sudo mkdir $SITE_DOMAIN
 
 if [ ! -d "$WEB_DIRECTORY" ]; then
-    mkdir -p "$WEB_DIRECTORY"
+    sudo mkdir -p "$WEB_DIRECTORY"
 fi
 
 cd $WEB_DIRECTORY
