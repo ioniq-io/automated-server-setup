@@ -21,10 +21,10 @@ cd ~
 sudo apt-get update
 
 # Use curl to download the latest nodejs lts version.
-curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh > /dev/null
+curl --Silent --location https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh > /dev/null
 
 # Build nodejs source.
-sudo bash nodesource_setup.sh
+sudo bash nodesource_setup.sh > /dev/null
 
 # Install nodejs from the source we just built, assumes yes for user validation.
 sudo apt-get -qq --assume-yes install nodejs
@@ -81,7 +81,7 @@ if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     echo "ssl_stapling_verify on;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
     echo "resolver 8.8.8.8 8.8.4.4 valid=300s;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
     echo "resolver_timeout 5s;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
-    echo "add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "add_header Strict-Transport-Security \"max-age=63072000; includeSubdomains\";" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
     echo "add_header X-Frame-Options DENY;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
     echo "add_header X-Content-Type-Options nosniff;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
     echo "ssl_dhparam /etc/ssl/certs/dhparam.pem;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
