@@ -17,6 +17,9 @@ fi
 # Change directory to user home directory.
 cd ~
 
+# Update apt-get cache
+sudo apt-get update
+
 # Use curl to download the latest nodejs lts version.
 curl -sL https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh
 
@@ -37,13 +40,13 @@ fi
 cd "$WEB_DIRECTORY"
 
 # Create your nodejs entry file that will be monitored by PM2.
-echo "#!/usr/bin/env nodejs" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
-echo "var http = require('http');" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
-echo "http.createServer(function (req, res) {" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
-echo "  res.writeHead(200, {'Content-Type': 'text/plain'});" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
-echo "  res.end('Hello World\n');" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
-echo "}).listen(8080, 'localhost');" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
-echo "console.log('Server running at http://localhost:8080/');" | sudo tee --append /var/www/$SITE_DOMAIN/$SITE_INIT_FILE_NAME > /dev/null
+echo "#!/usr/bin/env nodejs" | sudo tee --append /var/www/$DOMAIN_NAME/$SITE_INIT_FILE_NAME > /dev/null
+echo "var http = require('http');" | sudo tee --append /var/www/$DOMAIN_NAME/$SITE_INIT_FILE_NAME > /dev/null
+echo "http.createServer(function (req, res) {" | sudo tee --append /var/www/$DOMAIN_NAME/$SITE_INIT_FILE_NAME > /dev/null
+echo "  res.writeHead(200, {'Content-Type': 'text/plain'});" | sudo tee --append /var/www/$DOMAIN_NAME/$SITE_INIT_FILE_NAME > /dev/null
+echo "  res.end('Hello World\n');" | sudo tee --append /var/www/$DOMAIN_NAME/$SITE_INIT_FILE_NAME > /dev/null
+echo "}).listen(8080, 'localhost');" | sudo tee --append /var/www/$DOMAIN_NAME/$SITE_INIT_FILE_NAME > /dev/null
+echo "console.log('Server running at http://localhost:8080/');" | sudo tee --append /var/www/$DOMAIN_NAME/$SITE_INIT_FILE_NAME > /dev/null
 
 # Install PM2 to monitor our nodejs application.
 sudo npm install -g --assume-yes pm2
@@ -58,21 +61,88 @@ sudo su -c "env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER_WITH_ROOT_ACCES
 sudo apt-get --assume-yes install nginx
 
 # Delete the sample Nginx default server block.
-sudo rm /etc/nginx/sites-available/default
+sudo rm $NGINX_SERVER_BLOCK_LOCATION
 
 # Replace the server block we just deleted with the configuration to reverse proxy to your app.
-echo "server {" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "    listen 80;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "    server_name example.com;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "    location / {" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_pass http://localhost:8080;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_http_version 1.1;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_set_header Upgrade \$http_upgrade;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_set_header Host \$host;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "    }" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
-echo "}" | sudo tee --append /etc/nginx/sites-available/default > /dev/null
+
+if [ "$LetsEncrypt_ENABLED" = "true" ]; then
+
+    # Create configuration snippet to configure the required key files
+    echo "ssl_certificate /etc/letsencrypt/live/$DOMAIN_NAME/fullchain.pem;" | sudo tee --append $SSL_SITE_CONFIG_FILE > /dev/null
+    echo "ssl_certificate_key /etc/letsencrypt/live/$DOMAIN_NAME/privkey.pem;" | sudo tee --append $SSL_SITE_CONFIG_FILE > /dev/null
+
+    # Create configuration snippet to configure the required key files
+    echo "ssl_protocols TLSv1 TLSv1.1 TLSv1.2;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "ssl_prefer_server_ciphers on;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "ssl_ciphers "EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH";" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "ssl_ecdh_curve secp384r1;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "ssl_session_cache shared:SSL:10m;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "ssl_session_tickets off;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "ssl_stapling on;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "ssl_stapling_verify on;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "resolver 8.8.8.8 8.8.4.4 valid=300s;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "resolver_timeout 5s;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "add_header Strict-Transport-Security "max-age=63072000; includeSubdomains";" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "add_header X-Frame-Options DENY;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "add_header X-Content-Type-Options nosniff;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+    echo "ssl_dhparam /etc/ssl/certs/dhparam.pem;" | sudo tee --append $SSL_PARAMS_FILE > /dev/null
+
+    # Create the server blocks
+    echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    listen 80;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    listen [::]:80 default_server ipv6only=on;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    return 301 https://\$host\$request_uri;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    listen 443;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    location ~ /.well-known{" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        allow all;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    #echo "    listen 443;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    #echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+
+    echo "    listen 443 ssl http2 default_server;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    listen [::]:443 ssl http2 default_server;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    include snippets/ssl-$DOMAIN_NAME.conf;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    include snippets/ssl-params.conf;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    
+    
+    
+    #echo "    ssl on;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    #echo "    ssl_certificate /etc/letsencrypt/live/$DOMAIN_NAME/fullchain.pem;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    #echo "    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN_NAME/privkey.pem;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    #echo "    ssl_session_timeout 5m;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    #echo "    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    #echo "    ssl_prefer_server_ciphers on;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    #echo "    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    location / {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header X-Real-IP \$remote_addr;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header X-NginX-Proxy true;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_pass http://localhost:8080/;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_ssl_session_reuse off;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header Host \$http_host;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_redirect off;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+else
+    echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    listen 80;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    location / {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_pass http://localhost:8080;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_http_version 1.1;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header Upgrade \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header Host \$host;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+fi
 
 # Restart Nginx to apply the new server block we just created.
 sudo systemctl restart nginx
@@ -88,7 +158,18 @@ if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     # Stop the Nginx service. This is required by LetsEncrypt to validate we own the domain name.
     sudo systemctl stop nginx
     
-    sudo letsencrypt certonly --standalone
+    sudo letsencrypt certonly -n -d $DOMAIN_NAME -m $SSL_REGISTRATION_EMAIL
+
+    if [ "$LetsEncrypt_AUTO_RENEW_ENABLED" = "true" ]; then
+        sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
+    fi
+
+    sudo systemctl start nginx
+
+    if [ "$LetsEncrypt_AUTO_RENEW_ENABLED" = "true" ]; then
+        crontab -l | { cat; echo "30 2 * * 1 /usr/bin/letsencrypt renew >> /var/log/le-renew.log"; } | crontab -
+        crontab -l | { cat; echo "35 2 * * 1 /bin/systemctl reload nginx"; } | crontab -
+    fi
 fi
 
 echo "Your nodejs web application is now fully configured."
