@@ -157,7 +157,7 @@ if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     # Stop the Nginx service. This is required by LetsEncrypt to validate we own the domain name.
     sudo systemctl stop nginx
     
-    sudo letsencrypt certonly -n -d $DOMAIN_NAME -m $SSL_REGISTRATION_EMAIL
+    sudo letsencrypt -d $DOMAIN_NAME --agree-dev-preview --agree-tos --email $SSL_REGISTRATION_EMAIL certonly
 
     if [ "$LetsEncrypt_AUTO_RENEW_ENABLED" = "true" ]; then
         sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
