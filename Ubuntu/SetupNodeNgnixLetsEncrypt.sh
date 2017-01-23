@@ -47,14 +47,14 @@ echo "}).listen(8080, 'localhost');" | sudo tee --append $WEB_DIRECTORY/$SITE_IN
 echo "console.log('Server running at http://localhost:8080/');" | sudo tee --append $WEB_DIRECTORY/$SITE_INIT_FILE_NAME > /dev/null
 
 # Install PM2 to monitor our nodejs application.
-sudo npm -g --silent install pm2
+sudo npm -g --silent install pm2 > /dev/null
 
 cd "$WEB_DIRECTORY"
 # Start the nodejs application with PM2. The application will auto-restart from this point.
-pm2 start $SITE_INIT_FILE_NAME
+pm2 start $SITE_INIT_FILE_NAME > /dev/null
 
 # Set PM2 to start on system startup.
-sudo su -c "env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER_WITH_ROOT_ACCESS --hp /home/$USER_WITH_ROOT_ACCESS"
+sudo su -c "env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER_WITH_ROOT_ACCESS --hp /home/$USER_WITH_ROOT_ACCESS" > /dev/null
 
 # Install Nginx to reverse-proxy our nodejs app.
 sudo apt-get -qq --assume-yes install nginx > /dev/null
@@ -100,23 +100,10 @@ if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    #echo "    listen 443;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    #echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-
     echo "    listen 443 ssl http2 default_server;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "    listen [::]:443 ssl http2 default_server;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "    include snippets/ssl-$DOMAIN_NAME.conf;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "    include snippets/ssl-params.conf;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    
-    
-    
-    #echo "    ssl on;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    #echo "    ssl_certificate /etc/letsencrypt/live/$DOMAIN_NAME/fullchain.pem;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    #echo "    ssl_certificate_key /etc/letsencrypt/live/$DOMAIN_NAME/privkey.pem;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    #echo "    ssl_session_timeout 5m;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    #echo "    ssl_protocols TLSv1 TLSv1.1 TLSv1.2;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    #echo "    ssl_prefer_server_ciphers on;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    #echo "    ssl_ciphers 'EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH';" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "    location / {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "        proxy_set_header X-Real-IP \$remote_addr;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
@@ -143,9 +130,6 @@ else
     echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
 fi
 
-# Restart Nginx to apply the new server block we just created.
-sudo systemctl restart nginx
-
 # Allow full permission to Nginx in the firewall.
 sudo ufw allow 'Nginx Full'
 
@@ -157,7 +141,7 @@ if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     # Stop the Nginx service. This is required by LetsEncrypt to validate we own the domain name.
     sudo systemctl stop nginx
     
-    sudo letsencrypt -d $DOMAIN_NAME --agree-dev-preview --agree-tos --email $SSL_REGISTRATION_EMAIL certonly
+    sudo letsencrypt -d $DOMAIN_NAME --agree-tos --email $SSL_REGISTRATION_EMAIL certonly
 
     if [ "$LetsEncrypt_AUTO_RENEW_ENABLED" = "true" ]; then
         sudo openssl dhparam -out /etc/ssl/certs/dhparam.pem 2048
