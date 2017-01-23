@@ -18,7 +18,7 @@ fi
 cd ~
 
 # Update apt-get cache
-sudo apt-get update
+sudo apt-get update > /dev/null
 
 # Use curl to download the latest nodejs lts version.
 curl --Silent --location https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh > /dev/null
@@ -27,10 +27,10 @@ curl --Silent --location https://deb.nodesource.com/setup_6.x -o nodesource_setu
 sudo bash nodesource_setup.sh > /dev/null
 
 # Install nodejs from the source we just built, assumes yes for user validation.
-sudo apt-get -qq --assume-yes install nodejs
+sudo apt-get -qq --assume-yes install nodejs > /dev/null
 
 # Install build essential for npm packages that need to build from source, assumes yes for user validation.
-sudo apt-get -qq --assume-yes install build-essential
+sudo apt-get -qq --assume-yes install build-essential > /dev/null
 
 # Check if the directory for the app already exist and if not, creates it
 if [ ! -d "$WEB_DIRECTORY" ]; then
@@ -47,7 +47,7 @@ echo "}).listen(8080, 'localhost');" | sudo tee --append $WEB_DIRECTORY/$SITE_IN
 echo "console.log('Server running at http://localhost:8080/');" | sudo tee --append $WEB_DIRECTORY/$SITE_INIT_FILE_NAME > /dev/null
 
 # Install PM2 to monitor our nodejs application.
-sudo npm -g --assume-yes --silent install pm2
+sudo npm -g --silent install pm2
 
 cd "$WEB_DIRECTORY"
 # Start the nodejs application with PM2. The application will auto-restart from this point.
@@ -57,7 +57,7 @@ pm2 start $SITE_INIT_FILE_NAME
 sudo su -c "env PATH=$PATH:/usr/bin pm2 startup systemd -u $USER_WITH_ROOT_ACCESS --hp /home/$USER_WITH_ROOT_ACCESS"
 
 # Install Nginx to reverse-proxy our nodejs app.
-sudo apt-get -qq --assume-yes install nginx
+sudo apt-get -qq --assume-yes install nginx > /dev/null
 
 # Delete the sample Nginx default server block.
 sudo rm $NGINX_SERVER_BLOCK_LOCATION
@@ -152,7 +152,7 @@ sudo ufw allow 'Nginx Full'
 # LetsEncrypt ENABLED flag condition.
 if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     # Install LetsEncrypt to generate our SSL certificate.
-    sudo apt-get -qq --assume-yes install letsencrypt
+    sudo apt-get -qq --assume-yes install letsencrypt > /dev/null
 
     # Stop the Nginx service. This is required by LetsEncrypt to validate we own the domain name.
     sudo systemctl stop nginx
