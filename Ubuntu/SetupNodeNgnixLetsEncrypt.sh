@@ -20,17 +20,34 @@ cd ~
 # Update apt-get cache
 sudo apt-get update > /dev/null
 
-# Use curl to download the latest nodejs lts version.
-curl --Silent --location https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh > /dev/null
 
-# Build nodejs source.
-sudo bash nodesource_setup.sh > /dev/null
 
-# Install nodejs from the source we just built, assumes yes for user validation.
-sudo apt-get -qq --assume-yes install nodejs > /dev/null
+if [ "$SERVER_TYPE" = "nodejs" ]; then
+    # Use curl to download the latest nodejs lts version.
+    curl --Silent --location https://deb.nodesource.com/setup_6.x -o nodesource_setup.sh > /dev/null
 
-# Install build essential for npm packages that need to build from source, assumes yes for user validation.
-sudo apt-get -qq --assume-yes install build-essential > /dev/null
+    # Build nodejs source.
+    sudo bash nodesource_setup.sh > /dev/null
+
+    # Install nodejs from the source we just built, assumes yes for user validation.
+    sudo apt-get -qq --assume-yes install nodejs > /dev/null
+
+    # Install build essential for npm packages that need to build from source, assumes yes for user validation.
+    sudo apt-get -qq --assume-yes install build-essential > /dev/null
+fi
+
+if [ "$SERVER_TYPE" = "dotnet" ]; then
+    sudo sh -c 'echo "deb [arch=amd64] https://apt-mo.trafficmanager.net/repos/dotnet-release/ xenial main" > /etc/apt/sources.list.d/dotnetdev.list'
+    sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 417A0893
+    sudo apt-get update
+    sudo apt-get install dotnet-dev-1.0.0-preview2.1-003177
+
+    mkdir hwapp
+    cd hwapp
+    dotnet new
+    dotnet restore
+    dotnet run
+fi
 
 # Check if the directory for the app already exist and if not, creates it
 if [ ! -d "$WEB_DIRECTORY" ]; then
