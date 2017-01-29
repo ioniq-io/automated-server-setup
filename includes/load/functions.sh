@@ -3,13 +3,14 @@
 
 # $1 -> Path to the folder to create.
 CreateFolder(){
-    if [ -z "$1" ] then
+    if [ -z "$1" ]; then
         echo "Folder path required as first parameter."
-    else
-        if [ ! -d "$1" ]; then
-            sudo mkdir -p $WEB_DIRECTORY
-        fi
+        return;
     fi
+
+    if [ ! -d "$1" ]; then
+        sudo mkdir -p $WEB_DIRECTORY
+    fi    
 }
 
 # $1 -> Text to write
