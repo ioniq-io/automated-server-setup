@@ -1,6 +1,6 @@
 #!/bin/bash
 
-source "$PROJECT_PATH/includes/load/config.sh"
+source "../includes/load/config.sh"
 source "$PROJECT_PATH/includes/load/functions.sh"
 source "$PROJECT_PATH/includes/load/flags.sh"
 
