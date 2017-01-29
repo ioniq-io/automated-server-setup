@@ -12,12 +12,12 @@ source "$SCRIPT_PATH/includes/initialize.sh"
 
 source "$SCRIPT_PATH/includes/wrapper/serverSetupWrapper.sh"
 
+source "$SCRIPT_PATH/includes/wrapper/serviceSetupWrapper.sh"
+
 source "$SCRIPT_PATH/includes/wrapper/reverseProxySetupWrapper.sh"
 
 source "$SCRIPT_PATH/includes/wrapper/sslSetupWrapper.sh"
 
 source "$SCRIPT_PATH/includes/wrapper/sampleAppSetupWrapper.sh"
-
-source "$SCRIPT_PATH/includes/wrapper/serviceSetupWrapper.sh"
 
 source "$SCRIPT_PATH/includes/finalize.sh"
