@@ -1,7 +1,3 @@
-pushd "dirname $0" > /dev/null
-SCRIPT_PATH="pwd -P"
-popd > /dev/null
-
 # Load configuration file
 config="$SCRIPT_PATH/config.cfg"
 if [ -f ${config} ]; then
