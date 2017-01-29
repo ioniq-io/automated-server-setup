@@ -1,4 +1,5 @@
 # Load configuration file
+pwd
 config='../../config.cfg'
 if [ -f ${config} ]; then
     # Validate the configuration file syntax
