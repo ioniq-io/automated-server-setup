@@ -1,5 +1,5 @@
 # Load configuration file
-config='config.cfg'
+config='../../config.cfg'
 if [ -f ${config} ]; then
     # Validate the configuration file syntax
     CFG_SYNTAX="(^\s*#|^\s*$|^\s*[a-z_][^[:space:]]*=[^;&]*$)"
