@@ -1,6 +1,8 @@
+PROJECT_PATH="­­~/automated-server-setup"
+
 # Load configuration file
 pwd
-config='../../config.cfg'
+config='$PROJECT_PATH/config.cfg'
 if [ -f ${config} ]; then
     # Validate the configuration file syntax
     CFG_SYNTAX="(^\s*#|^\s*$|^\s*[a-z_][^[:space:]]*=[^;&]*$)"

@@ -1,3 +1,3 @@
 if [ "$PM2_ENABLED" = "true" ]; then
-    source "../includes/setup/pm2.sh"
+    source "$PROJECT_PATH/includes/setup/pm2.sh"
 fi

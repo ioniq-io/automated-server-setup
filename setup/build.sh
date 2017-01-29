@@ -1,35 +1,35 @@
 #!/bin/bash
 
-source "../includes/load/config.sh"
-source "../includes/load/functions.sh"
-source "../includes/load/flags.sh"
+source "$PROJECT_PATH/includes/load/config.sh"
+source "$PROJECT_PATH/includes/load/functions.sh"
+source "$PROJECT_PATH/includes/load/flags.sh"
 
 pwd
 
-source "../includes/initialize.sh"
+source "$PROJECT_PATH/includes/initialize.sh"
 
 pwd
 
-source "../includes/wrapper/serverSetupWrapper.sh"
+source "$PROJECT_PATH/includes/wrapper/serverSetupWrapper.sh"
 
 pwd
 
-source "../includes/wrapper/serviceSetupWrapper.sh"
+source "$PROJECT_PATH/includes/wrapper/serviceSetupWrapper.sh"
 
 pwd
 
-source "../includes/wrapper/reverseProxySetupWrapper.sh"
+source "$PROJECT_PATH/includes/wrapper/reverseProxySetupWrapper.sh"
 
 pwd
 
-source "../includes/wrapper/sslSetupWrapper.sh"
+source "$PROJECT_PATH/includes/wrapper/sslSetupWrapper.sh"
 
 pwd
 
-source "../includes/wrapper/sampleAppSetupWrapper.sh"
+source "$PROJECT_PATH/includes/wrapper/sampleAppSetupWrapper.sh"
 
 pwd
 
-source "../includes/finalize.sh"
+source "$PROJECT_PATH/includes/finalize.sh"
 
 pwd

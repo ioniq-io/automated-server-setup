@@ -1,3 +1,3 @@
 if [ "$NGINX_ENABLED" = "true" ]; then
-    source "../includes/setup/nginx.sh"
+    source "$PROJECT_PATH/includes/setup/nginx.sh"
 fi

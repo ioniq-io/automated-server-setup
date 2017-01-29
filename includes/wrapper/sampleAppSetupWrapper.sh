@@ -1,3 +1,3 @@
 if [ "$SERVER_TYPE" = "nodejs" ]; then
-    source "../includes/write/nodeJsHelloWorld.sh"
+    source "$PROJECT_PATH/includes/write/nodeJsHelloWorld.sh"
 fi
