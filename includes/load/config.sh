@@ -1,4 +1,8 @@
-PROJECT_PATH="­­~/automated-server-setup"
+# Username on the server with root access used during this setup.
+USER_WITH_ROOT_ACCESS="appuser"
+
+#Value is also set in includes/load/config.sh
+PROJECT_PATH="­­/home/$USER_WITH_ROOT_ACCESS/automated-server-setup"
 
 # Load configuration file
 pwd
