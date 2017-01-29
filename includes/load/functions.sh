@@ -17,11 +17,11 @@ CreateFolder(){
 # $2 -> File path to write it in.
 WriteLine()
 {
-    if [ -z "$1" ] then
+    if [ -z "$1" ]; then
         echo "Text to write required as first parameter."
     fi
 
-    if [ -z "$2" ] then
+    if [ -z "$2" ]; then
         echo "File path where to write required as second parameter."
     fi
 
