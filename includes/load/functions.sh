@@ -1,14 +1,30 @@
 #!/bin/bash
 # Functions and parameters
 
+# $1 -> Path to the folder to create.
 CreateFolder(){
     if [ -z "$1" ] then
+        echo "Folder path required as first parameter."
+    else
         if [ ! -d "$1" ]; then
             sudo mkdir -p $WEB_DIRECTORY
         fi
-   else
-     echo "-Parameter #1 is \"$1\".-"
-   fi  
+    fi
+}
+
+# $1 -> Text to write
+# $2 -> File path to write it in.
+WriteLine()
+{
+    if [ -z "$1" ] then
+        echo "Text to write required as first parameter."
+    fi
+
+    if [ -z "$2" ] then
+        echo "File path where to write required as second parameter."
+    fi
+
+    echo "$1" | sudo tee --append $2 > /dev/null
 }
 
 #DEFAULT=default                             # Default param value.
