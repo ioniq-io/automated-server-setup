@@ -9,6 +9,6 @@ if [ -f ${config} ]; then
     fi
     # now source it, either the original or the filtered variant
     source "$config"
-else*
+else
     echo "There is no configuration file call ${config}"
 fi
