@@ -1,12 +1,9 @@
-# Username on the server with root access used during this setup.
-USER_WITH_ROOT_ACCESS="appuser"
-
-#Value is also set in includes/load/config.sh
-PROJECT_PATH="­­/home/$USER_WITH_ROOT_ACCESS/automated-server-setup"
+pushd "dirname $0" > /dev/null
+SCRIPT_PATH="pwd -P"
+popd > /dev/null
 
 # Load configuration file
-pwd
-config="$PROJECT_PATH/config.cfg"
+config="$SCRIPT_PATH/config.cfg"
 if [ -f ${config} ]; then
     # Validate the configuration file syntax
     CFG_SYNTAX="(^\s*#|^\s*$|^\s*[a-z_][^[:space:]]*=[^;&]*$)"
