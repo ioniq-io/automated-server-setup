@@ -4,4 +4,4 @@ cd ~
 # Update apt-get cache
 sudo apt-get update > /dev/null
 
-CreateFolder("$WEB_DIRECTORY")
+CreateFolder "$WEB_DIRECTORY"
