@@ -18,6 +18,10 @@ LoadSource "$SCRIPT_PATH/includes/load/flags.sh"
 
 DebugInfo "Flags loaded successfully."
 
+LoadSource "$SCRIPT_PATH/includes/load/switch.sh"
+
+DebugInfo "Switches loaded successfully."
+
 LoadSource "$SCRIPT_PATH/includes/initialize.sh"
 
 DebugInfo "Setup initialized."
