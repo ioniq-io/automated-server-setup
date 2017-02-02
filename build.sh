@@ -4,7 +4,7 @@ pushd `dirname $0` > /dev/null
 SCRIPT_PATH=`pwd -P`
 popd > /dev/null
 
-LoadSource "$SCRIPT_PATH/includes/load/functions.sh"
+source "$SCRIPT_PATH/includes/load/functions.sh"
 
 DebugInfo "SCRIPT_PATH = $SCRIPT_PATH"
 
