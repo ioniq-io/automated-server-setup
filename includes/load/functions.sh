@@ -37,7 +37,7 @@ DebugInfo(){
         return;
     fi
 
-    if [ Debug_FLAG = "true" ]; then
+    if [ "$Debug_FLAG" = "true" ]; then
         echo "$1"
     fi 
 }
