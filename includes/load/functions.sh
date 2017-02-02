@@ -19,13 +19,71 @@ WriteLine()
 {
     if [ -z "$1" ]; then
         echo "Text to write required as first parameter."
+        return;
     fi
 
     if [ -z "$2" ]; then
         echo "File path where to write required as second parameter."
+        return;
     fi
 
     echo "$1" | sudo tee --append $2 > /dev/null
+}
+
+# $1 -> Echo debug info if Debug_FLAG is enabled
+DebugInfo(){
+    if [ -z "$1" ]; then
+        echo "Debug info required."
+        return;
+    fi
+
+    if [ Debug_FLAG = "true" ]; then
+        echo "$1"
+    fi 
+}
+
+# $1 -> Echo init info if Debug_FLAG is enabled
+InitInfo(){
+    if [ -z "$1" ]; then
+        echo "Variable name required."
+        return;
+    fi
+
+    if [ -z "$2" ]; then
+        echo "Variable value required."
+        return;
+    fi
+
+    DebugInfo "$1 initialized with value $2"
+}
+
+# $1 -> Echo change info if Debug_FLAG is enabled
+ChangeInfo(){
+    if [ -z "$1" ]; then
+        echo "Variable name required."
+        return;
+    fi
+
+    if [ -z "$2" ]; then
+        echo "Variable value required."
+        return;
+    fi
+
+    DebugInfo "$1 value changed to: $2"
+}
+
+# $1 -> Echo debug info if Debug_FLAG is enabled
+LoadSource(){
+    if [ -z "$1" ]; then
+        echo "File path to load required."
+        return;
+    fi
+
+    DebugInfo "Loading source from file $1"
+
+    source "$1"
+
+    DebugInfo "File $1 was loaded successfully."
 }
 
 #DEFAULT=default                             # Default param value.

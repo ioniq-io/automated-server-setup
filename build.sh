@@ -4,20 +4,32 @@ pushd `dirname $0` > /dev/null
 SCRIPT_PATH=`pwd -P`
 popd > /dev/null
 
-source "$SCRIPT_PATH/includes/load/config.sh"
-source "$SCRIPT_PATH/includes/load/functions.sh"
-source "$SCRIPT_PATH/includes/load/flags.sh"
+LoadSource "$SCRIPT_PATH/includes/load/functions.sh"
 
-source "$SCRIPT_PATH/includes/initialize.sh"
+DebugInfo "SCRIPT_PATH = $SCRIPT_PATH"
 
-source "$SCRIPT_PATH/includes/wrapper/serverSetupWrapper.sh"
+LoadSource "$SCRIPT_PATH/includes/load/config.sh"
 
-source "$SCRIPT_PATH/includes/wrapper/serviceSetupWrapper.sh"
+DebugInfo "Config loaded successfully."
 
-source "$SCRIPT_PATH/includes/wrapper/reverseProxySetupWrapper.sh"
+LoadSource "$SCRIPT_PATH/includes/load/flags.sh"
 
-source "$SCRIPT_PATH/includes/wrapper/sslSetupWrapper.sh"
+DebugInfo "Flags loaded successfully."
 
-source "$SCRIPT_PATH/includes/wrapper/sampleAppSetupWrapper.sh"
+LoadSource "$SCRIPT_PATH/includes/initialize.sh"
 
-source "$SCRIPT_PATH/includes/finalize.sh"
+DebugInfo "Setup initialized."
+
+LoadSource "$SCRIPT_PATH/includes/wrapper/serverSetupWrapper.sh"
+
+LoadSource "$SCRIPT_PATH/includes/wrapper/serviceSetupWrapper.sh"
+
+LoadSource "$SCRIPT_PATH/includes/wrapper/reverseProxySetupWrapper.sh"
+
+LoadSource "$SCRIPT_PATH/includes/wrapper/sslSetupWrapper.sh"
+
+LoadSource "$SCRIPT_PATH/includes/wrapper/sampleAppSetupWrapper.sh"
+
+LoadSource "$SCRIPT_PATH/includes/finalize.sh"
+
+DebugInfo "Setup finalized."
