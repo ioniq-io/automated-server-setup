@@ -7,7 +7,7 @@ InitInfo "StartAndMonitorApp_FLAG" "$StartAndMonitorApp_FLAG"
 
 
 if [ "$PM2_ENABLED" = "true" ]; then
-    StartAndMonitorApp_FLAG = "true";
+    StartAndMonitorApp_FLAG="true";
     ChangeInfo "StartAndMonitorApp_FLAG" "$StartAndMonitorApp_FLAG"
 fi
 

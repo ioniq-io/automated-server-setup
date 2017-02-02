@@ -4,7 +4,7 @@ pushd `dirname $0` > /dev/null
 SCRIPT_PATH=`pwd -P`
 popd > /dev/null
 
-Debug_FLAG = "true"
+Debug_FLAG="true"
 
 source "$SCRIPT_PATH/includes/load/functions.sh"
 
