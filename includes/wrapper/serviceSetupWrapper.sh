@@ -1,4 +1,4 @@
-if [ "$StartAndMonitorApp_FLAG" = true ]; then
+if [ "$StartAndMonitorApp_FLAG" = "true" ]; then
 
     # Setup PM2 as the application service manager
     if [ "$PM2_ENABLED" = "true" ]; then
