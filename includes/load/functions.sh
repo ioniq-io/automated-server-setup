@@ -83,7 +83,7 @@ LoadSource(){
 
     source "$1"
 
-    DebugInfo "File $1 was loaded successfully."
+    DebugInfo "Success."
 }
 
 #DEFAULT=default                             # Default param value.

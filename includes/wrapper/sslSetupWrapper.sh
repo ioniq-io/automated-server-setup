@@ -1,3 +1,3 @@
 if [ "$LetsEncrypt_ENABLED" = "true" ]; then
-    source "$SCRIPT_PATH/includes/setup/LetsEncrypt.sh"
+    LoadSource "$SCRIPT_PATH/includes/setup/LetsEncrypt.sh"
 fi

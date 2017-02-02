@@ -8,7 +8,7 @@ if [ -f ${config} ]; then
       exit 1
     fi
     # now source it, either the original or the filtered variant
-    source "$config"
+    LoadSource "$config"
 else
     echo "There is no configuration file call ${config}"
 fi
