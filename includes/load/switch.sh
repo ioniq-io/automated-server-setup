@@ -1,6 +1,6 @@
 # Flag indicating if a monitor service has been installed.
 
-Debug_Info "Loading switches..."
+DebugInfo "Loading switches..."
 
 StartAndMonitorApp_FLAG = "false";
 InitInfo "StartAndMonitorApp_FLAG" "$StartAndMonitorApp_FLAG"
@@ -12,4 +12,4 @@ if [ "$PM2_ENABLED" = "true" ]; then
     set "StartAndMonitorApp_FLAG" "true"
 fi
 
-Debug_Info "Switches loaded."
+DebugInfo "Switches loaded."
