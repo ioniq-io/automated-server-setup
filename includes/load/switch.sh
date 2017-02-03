@@ -9,6 +9,7 @@ InitInfo "StartAndMonitorApp_FLAG" "$StartAndMonitorApp_FLAG"
 if [ "$PM2_ENABLED" = "true" ]; then
     StartAndMonitorApp_FLAG="true";
     ChangeInfo "StartAndMonitorApp_FLAG" "$StartAndMonitorApp_FLAG"
+    set "StartAndMonitorApp_FLAG" "true"
 fi
 
-Debug_Info "Switches loaded.
+Debug_Info "Switches loaded."
