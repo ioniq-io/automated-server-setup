@@ -2,7 +2,7 @@
 
 DebugInfo "Loading switches..."
 
-StartAndMonitorApp_FLAG = "false";
+StartAndMonitorApp_FLAG="false";
 InitInfo "StartAndMonitorApp_FLAG" "$StartAndMonitorApp_FLAG"
 
 
