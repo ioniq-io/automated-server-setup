@@ -72,27 +72,6 @@ ChangeInfo(){
     DebugInfo "$1 value changed to: $2"
 }
 
-# $1 -> Echo change info if Debug_FLAG is enabled
-set(){
-    if [ -z "$1" ]; then
-        echo "Variable name required."
-        return;
-    fi
-
-    if [ -z "$2" ]; then
-        echo "Value required."
-        return;
-    fi
-
-    setoldvalue_tmp=${1}
-
-    echo "old value: $setoldvalue_tmp"
-
-    eval ${1}="$2"
-
-    DebugInfo "$1 value:  changed to: $2"
-}
-
 # $1 -> Echo debug info if Debug_FLAG is enabled
 LoadSource(){
     if [ -z "$1" ]; then
