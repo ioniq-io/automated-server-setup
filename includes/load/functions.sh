@@ -84,11 +84,13 @@ set(){
         return;
     fi
 
-    setoldvalue_tmp = "\$$1"
+    local oldvar="$1"
+
+    setoldvalue_tmp = "$oldvar"
 
     echo "old value: $setoldvalue_tmp"
 
-    "\$$1" = "$2"
+    eval $oldvar="$2"
 
     DebugInfo "$1 value:  changed to: $2"
 }
