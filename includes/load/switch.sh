@@ -11,4 +11,10 @@ if [ "$PM2_ENABLED" = "true" ]; then
     ChangeInfo "StartAndMonitorApp_FLAG" "$StartAndMonitorApp_FLAG"
 fi
 
+if [ "$NGINX_ENABLED" = "true" ]; then
+    ProxyEnabled_FLAG="true";
+    ChangeInfo "ProxyEnabled_FLAG" "$ProxyEnabled_FLAG"
+fi
+
+
 DebugInfo "Switches loaded."
