@@ -99,6 +99,7 @@ sudo dotnet build
 if [ "$PM2_ENABLED" = "true" ]; then
     sudo pm2 start --name $DOMAIN_NAME dotnet -- run
     sudo pm2 save
+    sudo pm2 dump
 fi
 
 # Run the .netcore app

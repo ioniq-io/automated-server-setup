@@ -10,3 +10,4 @@ WriteLine "console.log('Server running at http://localhost:8080/');" "$WEB_DIREC
 # Start the nodejs application with PM2. The application will auto-restart from this point.
 sudo pm2 start $WEB_DIRECTORY/$SITE_INIT_FILE_NAME > /dev/null
 sudo pm2 save
+sudo pm2 dump
