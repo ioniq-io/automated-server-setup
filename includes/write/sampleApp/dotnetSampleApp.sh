@@ -92,13 +92,15 @@ if [ "$NGINX_ENABLED" = "true" ]; then
     sudo service nginx restart
 fi
 
-
-
 # Restore packages
 sudo dotnet restore
+sudo dotnet build
+
+if [ "$PM2_ENABLED" = "true" ]; then
+    sudo pm2 start --name $DOMAIN_NAME dotnet -- run
+fi
 
 # Run the .netcore app
-sudo dotnet run
-
-sudo dotnet publish
+#sudo dotnet run
+#sudo dotnet publish
 
