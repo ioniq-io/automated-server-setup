@@ -81,7 +81,7 @@ WriteLine "        public void Configure(IApplicationBuilder app)" "$WEB_DIRECTO
 WriteLine "        {" "$WEB_DIRECTORY/Startup.cs"
 WriteLine "            app.Run(context =>" "$WEB_DIRECTORY/Startup.cs"
 WriteLine "            {" "$WEB_DIRECTORY/Startup.cs"
-WriteLine "                return context.Response.WriteAsync("Hello from ASP.NET Core!");" "$WEB_DIRECTORY/Startup.cs"
+WriteLine "                return context.Response.WriteAsync(\"Hello from ASP.NET Core!\");" "$WEB_DIRECTORY/Startup.cs"
 WriteLine "            });" "$WEB_DIRECTORY/Startup.cs"
 WriteLine "        }" "$WEB_DIRECTORY/Startup.cs"
 WriteLine "    }" "$WEB_DIRECTORY/Startup.cs"
