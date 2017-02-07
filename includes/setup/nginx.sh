@@ -58,6 +58,23 @@ if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
 else
+
+if [ "$SERVER_TYPE" = "dotnet" ]; then
+    echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    listen 80;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    location / {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_pass http://localhost:5001;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_http_version 1.1;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header Upgrade \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_set_header Host \$host;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+fi
+
+if [ "$SERVER_TYPE" = "nodejs" ]; then
     echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "    listen 80;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
@@ -70,6 +87,8 @@ else
     echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+fi
+    
 fi
 
 # Allow full permission to Nginx in the firewall.
