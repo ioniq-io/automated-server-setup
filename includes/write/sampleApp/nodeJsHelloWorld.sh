@@ -1,4 +1,4 @@
-# Create your nodejs entry file that will be monitored by PM2.
+# Create your nodejs entry file.
 WriteLine "#!/usr/bin/env nodejs" "$WEB_DIRECTORY/$SITE_INIT_FILE_NAME"
 WriteLine "var http = require('http');" "$WEB_DIRECTORY/$SITE_INIT_FILE_NAME"
 WriteLine "http.createServer(function (req, res) {" "$WEB_DIRECTORY/$SITE_INIT_FILE_NAME"
