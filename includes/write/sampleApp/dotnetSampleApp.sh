@@ -5,7 +5,7 @@ sudo dotnet new
 
 # Create your dotnet core web app files
 
-sudo rm project.json 
+sudo rm project.json Program.cs
 
 WriteLine "{" "$WEB_DIRECTORY/project.json"
 WriteLine "    \"version\": \"1.0.0-*\"," "$WEB_DIRECTORY/project.json"
