@@ -1,6 +1,6 @@
 
 if [ "$SERVER_TYPE" != "nodejs" ]; then
-    sudo apt-get -qq --assume-yes install npm
+    LoadSource "$SCRIPT_PATH/includes/setup/nodeJS.sh"
 fi
 
 # Install PM2 to monitor our nodejs application.
