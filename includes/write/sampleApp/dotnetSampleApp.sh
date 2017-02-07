@@ -1,4 +1,4 @@
 cd $WEB_DIRECTORY
-dotnet new
-dotnet restore
-dotnet run
+sudo dotnet new
+sudo dotnet restore
+sudo dotnet run
