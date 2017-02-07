@@ -88,6 +88,12 @@ WriteLine "        }" "$WEB_DIRECTORY/Startup.cs"
 WriteLine "    }" "$WEB_DIRECTORY/Startup.cs"
 WriteLine "}" "$WEB_DIRECTORY/Startup.cs"
 
+if [ "$NGINX_ENABLED" = "true" ]; then
+    sudo service nginx restart
+fi
+
+
+
 # Restore packages
 sudo dotnet restore
 
@@ -95,3 +101,4 @@ sudo dotnet restore
 sudo dotnet run
 
 sudo dotnet publish
+
