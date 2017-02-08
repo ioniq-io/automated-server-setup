@@ -50,7 +50,7 @@ if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     echo "        proxy_set_header X-Real-IP \$remote_addr;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "        proxy_set_header X-NginX-Proxy true;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_pass http://localhost:8080/;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    echo "        proxy_pass http://localhost:$INTERNAL_SERVER_PORT/;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "        proxy_ssl_session_reuse off;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "        proxy_set_header Host \$http_host;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
     echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
@@ -59,35 +59,35 @@ if [ "$LetsEncrypt_ENABLED" = "true" ]; then
     echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
 else
 
-if [ "$SERVER_TYPE" = "dotnet" ]; then
-    echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "    listen 80;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "    location / {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_pass http://localhost:5000;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_http_version 1.1;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_set_header Upgrade \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_set_header Host \$host;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-fi
+    if [ "$SERVER_TYPE" = "dotnet" ]; then
+        echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "    listen 80;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "    location / {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_pass http://localhost:$INTERNAL_SERVER_PORT;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_http_version 1.1;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_set_header Upgrade \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_set_header Host \$host;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    fi
 
-if [ "$SERVER_TYPE" = "nodejs" ]; then
-    echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "    listen 80;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "    location / {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_pass http://localhost:8080;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_http_version 1.1;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_set_header Upgrade \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_set_header Host \$host;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-    echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
-fi
+    if [ "$SERVER_TYPE" = "nodejs" ]; then
+        echo "server {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "    listen 80;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "    server_name $DOMAIN_NAME;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "    location / {" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_pass http://localhost:$INTERNAL_SERVER_PORT;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_http_version 1.1;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_set_header Upgrade \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_set_header Connection 'upgrade';" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_set_header Host \$host;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "        proxy_cache_bypass \$http_upgrade;" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "    }" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+        echo "}" | sudo tee --append $NGINX_SERVER_BLOCK_LOCATION > /dev/null
+    fi
     
 fi
 
