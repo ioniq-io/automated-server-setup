@@ -3,8 +3,10 @@
 This project was designed to be an automation solution for a range of server setup and crash recovery.
 
 More options will be added. 
+
 NodeJS is fully supported (Nodejs server, NGINX proxy, PM2 service manager, SSl auto registration and setup)
-dotnet core is mostly supported (dotnet core server, NGINX proxy, PM2 service manager, SSl not available yet)
+
+Dotnet core is mostly supported (dotnet core server, NGINX proxy, PM2 service manager, SSl not available yet)
 
 Available setup:
 
@@ -23,10 +25,12 @@ Available setup:
     cd ~
     git clone https://github.com/ioniq-io/automated-server-setup.git
     
-    cd automated-server-setup/setup/
+    cd automated-server-setup/
     chmod +x build.sh
     
-    ./build.sh [OPTIONS/FLAGS]
+    update configuration file for your requirements (config.cfg)
+    
+    ./build.sh
 
 # Restart services on server reboot:
 
