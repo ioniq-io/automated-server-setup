@@ -20,7 +20,7 @@ Ubuntu 16.04 (More OS will be suported at a later date.):
     - Automatic dotnet core server
         - NGINX reverse proxy (Required)
         - PM2 Service manager (Required)
-        - SSL Registration and Setup (Under development)
+        - SSL Registration and Setup (Optional)
         
 # How to use:
 
