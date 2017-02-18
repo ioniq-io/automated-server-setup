@@ -6,7 +6,7 @@ More options will be added.
 
 NodeJS is fully supported (Nodejs server, NGINX proxy, PM2 service manager, SSl auto registration and setup)
 
-Dotnet core is mostly supported (dotnet core server, NGINX proxy, PM2 service manager, SSl not available yet)
+Dotnet is fully supported (dotnet core server, NGINX proxy, PM2 service manager, SSl auto registration and setup)
 
 Available setup:
 
