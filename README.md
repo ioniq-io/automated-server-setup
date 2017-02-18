@@ -10,6 +10,7 @@ Dotnet core is mostly supported (dotnet core server, NGINX proxy, PM2 service ma
 
 Available setup:
 
+Ubuntu 16.04:
     - Automatic NodeJS server
         - NGINX reverse proxy (Required)
         - PM2 Service Manager (Required)
